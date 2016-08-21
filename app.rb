@@ -33,5 +33,4 @@ end
 
 get '/ticket' do
     #TODO Show film, name, seat, etc...
-    #and confirm ticket.
 end

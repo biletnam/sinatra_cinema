@@ -11,6 +11,6 @@ class TicketsTests < Minitest::Test
     def test_find_ticket
         tickets = Tickets.new
         tickets.generate('Javi', 'Back to the future')
-        assert_equal ['Javi', 'Back to the future', false] , tickets.find(1) 
+        assert_equal ['Javi', 'Back to the future'] , tickets.find(1) 
     end
 end
