@@ -1,7 +1,22 @@
 <html>
 <head></head>
 <body>
-    <form action="form" method="post">
+    <script type="text/javascript">
+        function changeTicketPrice(){
+            var price = 0;
+            var film_selected = document.getElementById('film').value;
+            if(film_selected != undefined){
+                if(film_selected == 'back_to_the_future'){
+                    price = 7;
+                }else{
+                    price = 5;
+                }
+            }
+            document.getElementById('ticket_price').innerHTML = price;
+            document.getElementById('ticket_price').value = price;
+        }
+    </script>
+    <form action="form" method="post" style="text-align: center">
         <div>
             <label>Name:</label>
             <input type="text" name="name"/>
@@ -11,18 +26,15 @@
             <input type="text" name="email"/>
         </div>
         <div>
-            <label>Phone number:</label>
-            <input type="text" name="phone_number"/>
-        </div>
-        <div>
-            <select id="film">
-                <option value="first_movie">First movie</option>
-                <option value="second_movie">Second movie</option>
+            <select id="film" onchange="changeTicketPrice()">
+                <option selected="selected">Choose a film</option>
+                <option value="back_to_the_future">Back to the future</option>
+                <option value="star_wars_iv">Star Wars Episode IV</option>
             </select>
         </div>
         <div>
             <label>Ticket price:</label>
-            <input type="text" name="ticket_price" readonly/>
+            <label id="ticket_price" value="0">0</label><label> €</label>
         </div>
         <div>
             <input type="submit" name="get_ticket"/>
