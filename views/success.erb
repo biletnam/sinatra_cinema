@@ -6,13 +6,12 @@
         </div>
         <div>
             <label>
-            We have sent your ticket for <%= film %> to:
-            <%= email %>
+            We have sent your ticket for <%= film %> to: <%= email %>
             </label>
         </div>
         <div>
             <input type="button" value="Back to shop" onclick="location.href='/'">
-            <input type="button" value="Look your ticket" onclick="location.href='/ticket'">
+            <input type="button" value="Look your ticket" onclick="location.href='/ticket/<%= ticket_id %>'">
         </div>
     </body>
 </html>
