@@ -19,18 +19,23 @@ post '/form' do
     if email.empty?
         erb :error
     else
-        ticket = settings.tickets.generate(name, film)
+        ticket_id = settings.tickets.generate(name, film)
         require 'pony'
         Pony.mail :to => email,
             :from => 'jfernapa@gmail.com',
             :subject => 'Your tickets!',
-            :body => erb(:email, :locals => { :name => name, :film => film }),
+            :body => erb(:email, :locals => { :name => name, :film => film, :ticket_id => ticket_id }),
             :via => :sendmail
 
-        erb :success, :locals => { :email => email, :film => film }
+        erb :success, :locals => { :email => email, :film => film, :ticket_id => ticket_id }
     end
 end
 
-get '/ticket' do
+get '/ticket/:ticket_id' do
     #TODO Show film, name, seat, etc...
+    erb :ticket, :locals => { :ticket_id => params[:ticket_id] }
+end
+
+put '/ticket' do
+    ticket = settings.tickets.find(params[:id_ticket])
 end

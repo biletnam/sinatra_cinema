@@ -1,19 +1,24 @@
 class Tickets
 
     attr_reader :tickets_list
+    attr_accessor :film_seats_sold
 
     def initialize
         @tickets_list = Hash.new
-        @seat_counter = 0
+        @ticket_id = 0
+        @film_seats_sold = Array.new
     end
 
     def generate(user_name, film)
-        @seat_counter += 1
-        @tickets_list[@seat_counter] = [user_name, film]
+        @ticket_id += 1
+        @film_seats_sold << film
+        seat = @film_seats_sold.count(film)
+        @tickets_list[@ticket_id] = [seat, user_name, film]
+        return @ticket_id
     end
 
-    def find(seat) 
-        return @tickets_list.fetch(seat)
+    def find(ticket_id) 
+        return @tickets_list.fetch(ticket_id)
     end
 
     def size
