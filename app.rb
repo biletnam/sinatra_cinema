@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'pony'
 require_relative 'tickets.rb'
 
 configure do
@@ -24,20 +25,25 @@ post '/form' do
         if settings.tickets == nil
             settings.tickets = Tickets.new
         end
-        ticket_id = settings.tickets.generate(name, film)
+        ticket = settings.tickets.generate_ticket(name, film)
+        ticket_id = settings.tickets.encode_id_ticket(ticket.id_ticket)
 
-        require 'pony'
         Pony.mail :to => email,
             :from => 'jfernapa@gmail.com',
             :subject => 'Your tickets!',
-            :body => erb(:email, :locals => { :name => name, :film => film, :ticket_id => ticket_id }),
-            :via => :sendmail
+            :body => erb(:email, :locals => { :name => ticket.user_name, :film => ticket.film, :ticket_id => ticket_id }),
+            :via => :smtp,
+            :via_options => {
+                :address => "localhost",
+                :domain => "localhots.localdomain",
+                :port => "25"
+            }
 
         erb :success, :locals => { :email => email, :film => film, :ticket_id => ticket_id }
     end
 end
 
 get '/ticket/:ticket_id' do
-    ticket = settings.tickets.find(params[:ticket_id].to_i)
-    erb :ticket, :locals => {:seat => ticket[0], :user_name => ticket[1], :film => ticket[2] }
+    ticket = settings.tickets.find(params[:ticket_id])
+    erb :ticket, :locals => {:seat => ticket.seat, :user_name => ticket.user_name, :film => ticket.film }
 end

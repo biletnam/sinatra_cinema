@@ -7,36 +7,34 @@ class TicketsTests < Minitest::Test
     end
 
     def test_add_a_ticket
-        @tickets.generate('Javi', 'Back to the future')
-        assert_equal 1 , @tickets.size 
+        @tickets.generate_ticket('Javi', 'Back to the future')
+        assert_equal 1, @tickets.size 
     end
 
     def test_add_another_ticket
-        @tickets.generate('Javi', 'Back to the future')
-        @tickets.generate('Emilio', 'Back to the future')
+        @tickets.generate_ticket('Javi', 'Back to the future')
+        @tickets.generate_ticket('Emilio', 'Back to the future')
         assert_equal 2 , @tickets.size 
     end
 
     def test_find_ticket
-        @tickets.generate('Javi', 'Back to the future')
-        assert_equal [1, 'Javi', 'Back to the future'] , @tickets.find(1) 
-    end
-
-    def test_return_generate_one_ticket
-        ticket_id = @tickets.generate('Javi', 'Back to the future')
-        assert_equal [1, 'Javi', 'Back to the future'], @tickets.find(ticket_id)
+        ticket = @tickets.generate_ticket('Javi', 'Back to the future')
+        encoded_id = @tickets.encode_id_ticket(ticket.id_ticket)
+        assert_equal ticket, @tickets.find(encoded_id) 
     end
 
     def test_return_generate_two_tickets
-        @tickets.generate('Javi', 'Back to the future')
-        ticket_id = @tickets.generate('Emilio', 'Back to the future')
-        assert_equal [2, 'Emilio', 'Back to the future'], @tickets.find(ticket_id)
+        first_ticket = @tickets.generate_ticket('Javi', 'Back to the future')
+        second_ticket = @tickets.generate_ticket('Emilio', 'Back to the future')
+        encoded_id = @tickets.encode_id_ticket(second_ticket.id_ticket)
+        assert_equal second_ticket, @tickets.find(encoded_id)
     end
 
     def test_generate_ticket_for_another_film
-        @tickets.generate('Javi', 'Back to the future')
-        @tickets.generate('Emilio', 'Back to the future')
-        ticket_id = @tickets.generate('Emilio', 'Star Wars Episode IV')
-        assert_equal [1, 'Emilio', 'Star Wars Episode IV'], @tickets.find(ticket_id)
+        first_ticket = @tickets.generate_ticket('Javi', 'Back to the future')
+        second_ticket = @tickets.generate_ticket('Emilio', 'Back to the future')
+        third_ticket = @tickets.generate_ticket('Sara', 'Star Wars Episode IV')
+        encoded_id = @tickets.encode_id_ticket(third_ticket.id_ticket)
+        assert_equal third_ticket, @tickets.find(encoded_id)
     end
 end
