@@ -1,7 +1,9 @@
 require 'sinatra'
 require_relative 'tickets.rb'
 
-set :tickets, Tickets.new 
+configure do
+    set :tickets, tickets = Tickets.new 
+end
 
 get '/' do
     erb :logo
@@ -19,7 +21,11 @@ post '/form' do
     if email.empty?
         erb :error
     else
+        if settings.tickets == nil
+            settings.tickets = Tickets.new
+        end
         ticket_id = settings.tickets.generate(name, film)
+
         require 'pony'
         Pony.mail :to => email,
             :from => 'jfernapa@gmail.com',
@@ -32,10 +38,6 @@ post '/form' do
 end
 
 get '/ticket/:ticket_id' do
-    #TODO Show film, name, seat, etc...
-    erb :ticket, :locals => { :ticket_id => params[:ticket_id] }
-end
-
-put '/ticket' do
-    ticket = settings.tickets.find(params[:id_ticket])
+    ticket = settings.tickets.find(params[:ticket_id].to_i)
+    erb :ticket, :locals => {:seat => ticket[0], :user_name => ticket[1], :film => ticket[2] }
 end
