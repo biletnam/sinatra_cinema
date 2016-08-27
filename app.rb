@@ -10,7 +10,11 @@ get '/' do
     erb :logo
 end
 
-post '/' do
+#post '/' do
+#    erb :tickets
+#end
+
+get '/tickets' do
     erb :tickets
 end
 
