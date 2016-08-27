@@ -10,10 +10,6 @@ get '/' do
     erb :logo
 end
 
-#post '/' do
-#    erb :tickets
-#end
-
 get '/tickets' do
     erb :tickets
 end
@@ -26,9 +22,6 @@ post '/tickets' do
     if email.empty?
         erb :error
     else
-        if settings.tickets == nil
-            settings.tickets = Tickets.new
-        end
         ticket = settings.tickets.generate_ticket(name, film)
         ticket_id = settings.tickets.encode_id_ticket(ticket.id_ticket)
 
