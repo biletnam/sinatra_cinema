@@ -15,15 +15,41 @@
             document.getElementById('ticket_price').innerHTML = price;
             document.getElementById('ticket_price').value = price;
         }
+
+        function validate_film_selected(){
+            var options = document.getElementById('film').options; 
+            var field_name = document.getElementById('name');
+            var field_email = document.getElementById('email');
+
+            if(field_name.value == ""){
+                field_name.style.backgroundColor = "red";
+            }else{
+                field_name.style.backgroundColor = "white";
+            }
+
+            if(field_email.value == ""){
+                field_email.style.backgroundColor = "red";
+            }else{
+                field_email.style.backgroundColor = "white";
+            }
+
+            if(options.selectedIndex == 0){
+                alert("Dont forget to choose a film!");
+            }
+
+            if(field_name.value != "" && field_email != "" && options.selectedItem != 0){
+                document.forms["tickets"].submit();
+            }
+        }
     </script>
-    <form action="form" method="post" style="text-align: center">
+    <form action="tickets" method="post" id="tickets" style="text-align: center">
         <div>
             <label>Name:</label>
-            <input type="text" name="name"/>
+            <input type="text" name="name" id="name"/>
         </div>
         <div>
             <label>e-Mail:</label>
-            <input type="text" name="email"/>
+            <input type="text" name="email" id="email"/>
         </div>
         <div>
             <select id="film" name="film" onchange="changeTicketPrice()">
@@ -37,7 +63,7 @@
             <label id="ticket_price" name="ticket_price" value="0">0</label><label> €</label>
         </div>
         <div>
-            <input type="submit" name="get_ticket"/>
+            <input type="button" value="Buy ticket" onclick="validate_film_selected()" name="get_ticket"/>
         </div>
     </form>
 </body>

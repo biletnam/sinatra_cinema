@@ -11,10 +11,10 @@ get '/' do
 end
 
 post '/' do
-    erb :form
+    erb :tickets
 end
 
-post '/form' do
+post '/tickets' do
     email = params[:email]
     name = params[:name]
     film = params[:film]
@@ -43,7 +43,7 @@ post '/form' do
     end
 end
 
-get '/ticket/:ticket_id' do
+get '/tickets/:ticket_id' do
     ticket = settings.tickets.find(params[:ticket_id])
     erb :ticket, :locals => {:seat => ticket.seat, :user_name => ticket.user_name, :film => ticket.film }
 end
