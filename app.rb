@@ -44,7 +44,7 @@ post '/tickets' do
             :body => erb(:email, :locals => {
                 :name => ticket.user_name,
                 :film => ticket.film,
-                :ticket_id => ticket_id }),
+                :ticket_id => ticket_id })
 
         erb :success, :locals => { :email => email, :film => film, :ticket_id => ticket_id }
     end
