@@ -1,5 +1,5 @@
 require "minitest/autorun"
-require_relative "tickets.rb"
+require_relative "../tickets.rb"
 
 class TicketsTests < Minitest::Test
     def setup

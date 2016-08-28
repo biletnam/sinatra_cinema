@@ -1,7 +1,7 @@
 ENV['RACK_ENV'] = 'test'
 
-require_relative 'app.rb'
-require_relative 'tickets.rb'
+require_relative '../app.rb'
+require_relative '../tickets.rb'
 require 'test/unit'
 require 'rack/test'
 
