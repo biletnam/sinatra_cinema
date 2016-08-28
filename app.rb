@@ -25,16 +25,26 @@ post '/tickets' do
         ticket = settings.tickets.generate_ticket(name, film)
         ticket_id = settings.tickets.encode_id_ticket(ticket.id_ticket)
 
+        Pony.options = {
+            :via => :smtp,
+            :via_options => {
+                :address => 'smtp:sendgrid.net',
+                :port => '587',
+                :domain => 'heroku.com',
+                :user_name => ENV['SENDGRID_USERNAME'],
+                :password => ENV['SENDGRID_PASSWORD'],
+                :authentication => :plain,
+                :enable_starttls_auto => true
+            }
+        }
+
         Pony.mail :to => email,
             :from => 'jfernapa@gmail.com',
             :subject => 'Your tickets!',
-            :body => erb(:email, :locals => { :name => ticket.user_name, :film => ticket.film, :ticket_id => ticket_id }),
-            :via => :smtp,
-            :via_options => {
-                :address => "localhost",
-                :domain => "localhots.localdomain",
-                :port => "25"
-            }
+            :body => erb(:email, :locals => {
+                :name => ticket.user_name,
+                :film => ticket.film,
+                :ticket_id => ticket_id }),
 
         erb :success, :locals => { :email => email, :film => film, :ticket_id => ticket_id }
     end
