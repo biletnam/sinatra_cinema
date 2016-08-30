@@ -33,7 +33,6 @@ post '/tickets' do
                 :name => ticket.user_name,
                 :film => ticket.film,
                 :ticket_id => ticket_id }),
-            port: '587',
             via: :smtp,
             via_options: {
                 :address => 'smtp.sendgrid.net',
